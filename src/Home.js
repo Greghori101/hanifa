@@ -1,3 +1,5 @@
+/* li testahaa hociiine : 
+
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -93,3 +95,41 @@ function Home() {
 }
 
 export default Home;
+*/
+
+
+/*exemple berk jayah ala home za3ma:*/
+import React, { useEffect, useState } from "react";
+import { BrowserRouter,Route,Switch,useHistory } from "react-router-dom";
+import axios from "axios";
+import AOS from "aos";
+import Nav from "./components/users/nav.component";
+import Homepage from "./components/users/homepage.component";
+import Login from "./components/users/Login";
+import ForgotPassword from "./components/users/ForgotPassword";
+import ResetPassword from "./components/users/ResetPassword";
+function Home() {
+
+	return (
+		<BrowserRouter>
+		<div className="Home">
+         <Nav/>
+		 <div className="auth-wrapper">
+			 <div className="auth-inner">
+				 <Switch>
+					 <Route exact  path="/home" component={Homepage}/>
+					 <Route exact path="/login" component={Login}/>
+					 <Route exact path="/reset:id" component={ResetPassword}/>
+					
+				 </Switch>
+
+			 </div>
+
+		 </div>
+		</div>
+		</BrowserRouter>
+	);
+}
+
+export default Home;
+
