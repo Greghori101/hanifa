@@ -1,24 +1,27 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { Component , useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import AOS from "aos";
 import {Link} from  "react-router-dom";
-import Login from "./Login";
-function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [emailErr,setEmailErr]=useState(false);
+import { render } from "@testing-library/react";
 
-  let history = useHistory();
-
-  const forgot = async (event) => {
+function ResetPassword(){
+  
+  const [newPassword, setnewPassword] = useState("");
+  const [confirmNewPassword, setconfirmNewPassword] = useState("");
   
 
+  let history = useHistory();
+  const Reset = async (event) => {
+    
     event.preventDefault();
     console.log("dsdasdaslogin");
     const data = {
-      email,
+      newPassword,
+      confirmNewPassword,
     };
-    /*let url = "http://192.168.43.151:8000/api/login";
+
+    let url = "http://192.168.43.151:8000/api/login";
     let options = {
       method: "POST",
       data,
@@ -36,31 +39,10 @@ function ForgotPassword() {
       document. body. classList.remove("bg-image");
       history.push("/");
     }
-    else {
-
-    }
-    */
-   axios.post("/login",data)
-      .then(res =>{
-       localStorage.setItem("token", res.data.token);
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+   
   };
-  function emailHandler(e){
-    let item=e.target.value;
-    let pattern=/[a-zA-Z0-9]+[\.]?([a-zA-Z0-9]+)?[\@][a-z\-]{3,9}[\.][a-z]{2,5}/g;
-    if(pattern.test(item))
-    {
-      setEmailErr(false)
-    }
-    else {
-        setEmailErr(true)
-    }
-   }
 
-  /*useEffect(() => {
+  useEffect(() => {
       let token = localStorage.getItem("token");
       if (token){
           //alert("");
@@ -72,42 +54,60 @@ function ForgotPassword() {
     document. body. classList. add( "bg-image");
 
       }
-  }, []);*/
+  }, []);
+ 
+
+ 
   return (
-    <div className="container  " >
+    <div className="container">
       <div className="row justify-content-center">
-        
         <div className="col-lg-6 bg-white content-center">
           <div className="p-5">
             <div className="text-center">
-              <h4 className="text-dark mb-4">Forgot your password?</h4>
-               <p> Please enter your email and we'll send you a link to get back to your account.</p>
+              <h4 className="text-dark mb-4">Reset Password!</h4>
             </div>
-            <form className="user" onSubmit={forgot}>
+            <form className="user" onSubmit={Reset}>
               <div className="mb-3">
-                <label className="form-label">Email</label>
+                <label className="form-label">New Password</label>
                 <input
                   className="form-control form-control-user"
-                  type="email"
-                  id="username-1"
-                  placeholder="Enter Your Email..."
-                  name="email"
+                  type="password"
+                  id="exampleInputPassword-1"
+                  placeholder="Enter Your New password..."
+                  name="newPassword"
                   required
-                  onChange={emailHandler}
-                  />            {emailErr? <span>It should be a valid email address!</span>:""}
-                  
+                  onChange={(event) => {
+                    newPassword(event.target.value);}}
+                 
+                />
               </div>
+              <div className="mb-3">
+                <label className="form-label">Confirm New Password</label>
+                <input
+                  className="form-control form-control-user"
+                  type="password"
+                  id="exampleInputPassword-1"
+                  placeholder="Confirm Your New password..."
+                  name="confirmPassword"
+                  required
+                  onChange={(event) => {
+                    confirmNewPassword(event.target.value);}}
+                  
+                />
+              </div>
+               <div className="d-grid gap-2 col-6 mx-auto">
               <button
-                className="btn btn-primary d-block btn-user"
+                className=" btn btn-primary d-md-block  btn-user2 "
                 type="submit"
               >
-                Send
+                Confim changes
               </button>
+              </div>
               <hr />
             </form>
             <div className="text-center">
-              <Link className="small" to={"/login"}>
-                  Go back to login page
+              <Link className="small" to={"/home"}>
+              Go back to login page
               </Link>
             </div>
             <div className="text-center"></div>
@@ -117,5 +117,4 @@ function ForgotPassword() {
     </div>
   );
 }
-
-export default ForgotPassword;
+export default  ResetPassword;

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import AOS from "aos";
+import {Link} from  "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -13,10 +14,10 @@ function Login() {
     event.preventDefault();
     console.log("dsdasdaslogin");
     const data = {
-      email,
-      password,
+      email: this.email,
+      password: this.password,
     };
-    let url = "http://192.168.43.151:8000/api/login";
+    /*let url = "http://192.168.43.151:8000/api/login";
     let options = {
       method: "POST",
       data,
@@ -34,9 +35,21 @@ function Login() {
       document. body. classList.remove("bg-image");
       history.push("/");
     }
+    */
+   axios.post("/login",data)
+      .then(res =>{
+       localStorage.setItem("token", res.data.token);
+        this.setState({
+            loggedIn: true
+        });
+        this.props.setUser(res.data.user);
+      })
+      .catch(err=>{
+        console.log(err)
+      })
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
       let token = localStorage.getItem("token");
       if (token){
           //alert("");
@@ -48,7 +61,7 @@ function Login() {
     document. body. classList. add( "bg-image");
 
       }
-  }, []);
+  }, []);*/
   return (
     <div className="container ">
       <div className="row justify-content-center">
@@ -104,9 +117,9 @@ function Login() {
               <hr />
             </form>
             <div className="text-center">
-              <a className="small" href="forgot-password.html">
+              <Link className="small" to={"/forgot"}>
                 Forgot Password?
-              </a>
+              </Link>
             </div>
             <div className="text-center"></div>
           </div>
